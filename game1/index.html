@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeeTalkEnglish - Possessives: My, Your, His, Her</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="logo">
+            <span class="logo-icon">🎓</span>
+            <span class="logo-text">TeeTalkEnglish</span>
+        </a>
+        <a href="../index.html" class="nav-link">← Grammar Hub</a>
+    </nav>
+
+    <div class="game-wrap">
+        <div class="game-top">
+            <a href="../index.html" class="nav-link">← Back</a>
+            <h1>👆 My, Your, His, Her</h1>
+            <div class="game-score">⭐ <span id="sc">0</span> / <span id="tt">8</span></div>
+        </div>
+        <div class="g-progress">
+            <div class="g-progress-track"><div class="g-progress-fill" id="pbar"></div></div>
+            <span class="g-progress-text" id="ptxt">Round 1 of 8</span>
+        </div>
+        <div class="g-area" id="garea"></div>
+        <div class="g-fb" id="gfb"></div>
+        <div class="g-help" id="ghelp"></div>
+        <div class="g-next" id="gnext"><button class="g-next-btn" onclick="nxt()">Next →</button></div>
+        <div class="g-done" id="gdone"></div>
+    </div>
+    <footer><p>TeeTalkEnglish © 2024 | Pensauken, NJ</p></footer>
+
+<script>
+var R = [
+    {
+        t: "fill",
+        title: "✏️ Fill in the Blank",
+        vis: "👩🎒",
+        scene: "A girl has a backpack. It belongs to her.",
+        pre: "This is ",
+        post: " backpack.",
+        ans: "her",
+        opts: ["her", "his", "my", "your"],
+        hw: "her",
+        hv: "của cô ấy",
+        he: "she → her. Use 'her' for a woman/girl.",
+        ex: "'Her' = belongs to she. She → her backpack."
+    },
+    {
+        t: "fill",
+        title: "✏️ Fill in the Blank",
+        vis: "🙋📱",
+        scene: "You are holding your phone. It belongs to you.",
+        pre: "This is ",
+        post: " phone.",
+        ans: "my",
+        opts: ["my", "your", "his", "our"],
+        hw: "my",
+        hv: "của tôi",
+        he: "I → my. Use 'my' when it belongs to you.",
+        ex: "'My' = belongs to me. I → my phone."
+    },
+    {
+        t: "fill",
+        title: "✏️ Fill in the Blank",
+        vis: "👨🚗",
+        scene: "A man is standing next to a car. It belongs to him.",
+        pre: "That is ",
+        post: " car.",
+        ans: "his",
+        opts: ["his", "her", "my", "their"],
+        hw: "his",
+        hv: "của anh ấy",
+        he: "he → his. Use 'his' for a man/boy.",
+        ex: "'His' = belongs to he. He → his car."
+    },
+    {
+        t: "choice",
+        title: "💬 Choose the Correct Sentence",
+        vis: "👩‍🏫💬",
+        scene: "The teacher asks a student for their name.",
+        q: "Which sentence is correct?",
+        ans: "What is your name?",
+        opts: [
+            "What is your name?",
+            "What is you name?",
+            "What is my name?",
+            "What is her name?"
+        ],
+        hw: "your",
+        hv: "của bạn",
+        he: "you → your. Use 'your' when talking TO someone.",
+        ex: "When you ask someone directly, use 'your' (not 'you')."
+    },
+    {
+        t: "fill",
+        title: "✏️ Fill in the Blank",
+        vis: "👫🏠",
+        scene: "You and your friend share a house. It belongs to both of you.",
+        pre: "This is ",
+        post: " house.",
+        ans: "our",
+        opts: ["our", "my", "your", "their"],
+        hw: "our",
+        hv: "của chúng tôi",
+        he: "we → our. Use 'our' for me + other people.",
+        ex: "'Our' = belongs to we. We share it → our house."
+    },
+    {
+        t: "fill",
+        title: "✏️ Fill in the Blank",
+        vis: "👨‍👩‍👧‍👦🐕",
+        scene: "A family has a dog. The dog belongs to them.",
+        pre: "That is ",
+        post: " dog.",
+        ans: "their",
+        opts: ["their", "our", "his", "your"],
+        hw: "their",
+        hv: "của họ",
+        he: "they → their. Use 'their' for a group of other people.",
+        ex: "'Their' = belongs to they. The family → their dog."
+    },
+    {
+        t: "match",
+        title: "🔗 Match: Person → Possessive",
+        inst: "Match each pronoun to the correct possessive word.",
+        pairs: [
+            { l: "I →", r: "my" },
+            { l: "you →", r: "your" },
+            { l: "he →", r: "his" },
+            { l: "she →", r: "her" },
+            { l: "we →", r: "our" }
+        ],
+        hw: "possessives",
+        hv: "sở hữu",
+        he: "Possessive words show who owns something.",
+        ex: "I→my, you→your, he→his, she→her, we→our"
+    },
+    {
+        t: "fill",
+        title: "✏️ Fill in the Blank",
+        vis: "🐱🥣",
+        scene: "A cat is eating food. The food belongs to the cat.",
+        pre: "The cat is eating ",
+        post: " food.",
+        ans: "its",
+        opts: ["its", "his", "her", "their"],
+        hw: "its",
+        hv: "của nó (vật)",
+        he: "it → its. Use 'its' for things or animals. No apostrophe!",
+        ex: "'Its' = belongs to it. The cat (it) → its food."
+    }
+];
+
+var cur = 0;
+var sc = 0;
+var tot = R.length;
+var mL = null;
+var mR = null;
+var mC = 0;
+var mP = {};
+
+window.onload = function() {
+    go();
+};
+
+function go() {
+    if (cur >= tot) {
+        done();
+        return;
+    }
+    var r = R[cur];
+    prog();
+    hfb();
+    hnx();
+    hhlp();
+    var a = document.getElementById("garea");
+    a.style.display = "block";
+
+    if (r.t === "fill") {
+        rFill(r, a);
+    } else if (r.t === "choice") {
+        rChoice(r, a);
+    } else if (r.t === "match") {
+        rMatch(r, a);
+    }
+
+    shlp(r);
+}
+
+function nxt() {
+    cur++;
+    go();
+}
+
+function prog() {
+    document.getElementById("pbar").style.width = (cur / tot * 100) + "%";
+    document.getElementById("ptxt").textContent = "Round " + (cur + 1) + " of " + tot;
+    document.getElementById("sc").textContent = sc;
+}
+
+// ===== FILL IN THE BLANK =====
+function rFill(r, a) {
+    var h = '';
+    h += '<div class="g-title">' + r.title + '</div>';
+    if (r.vis) h += '<div class="g-visual">' + r.vis + '</div>';
+    if (r.scene) h += '<div class="g-scenario">' + r.scene + '</div>';
+    h += '<div class="g-sentence">';
+    h += r.pre;
+    h += '<span class="g-blank" id="bl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+    h += r.post;
+    h += '</div>';
+    h += '<div class="g-choices">';
+    for (var i = 0; i < r.opts.length; i++) {
+        h += '<div class="g-choice" data-w="' + r.opts[i] + '" onclick="cFill(this)">' + r.opts[i] + '</div>';
+    }
+    h += '</div>';
+    a.innerHTML = h;
+}
+
+function cFill(el) {
+    var r = R[cur];
+    var w = el.getAttribute("data-w");
+    var ok = (w.toLowerCase() === r.ans.toLowerCase());
+
+    var all = document.querySelectorAll(".g-choice");
+    for (var i = 0; i < all.length; i++) {
+        all[i].classList.add("off");
+        all[i].style.pointerEvents = "none";
+        if (all[i].getAttribute("data-w").toLowerCase() === r.ans.toLowerCase()) {
+            all[i].classList.add("correct");
+        }
+        if (all[i].getAttribute("data-w") === w && !ok) {
+            all[i].classList.add("wrong");
+        }
+    }
+
+    var bl = document.getElementById("bl");
+    bl.textContent = r.ans;
+    bl.style.borderBottomStyle = "solid";
+    bl.style.borderBottomColor = ok ? "#4caf50" : "#ef5350";
+
+    if (ok) { sc++; prog(); }
+    sfb(ok, r.ex);
+    revealHint();
+    snx();
+}
+
+// ===== MULTIPLE CHOICE =====
+function rChoice(r, a) {
+    var h = '';
+    h += '<div class="g-title">' + r.title + '</div>';
+    if (r.vis) h += '<div class="g-visual">' + r.vis + '</div>';
+    if (r.scene) h += '<div class="g-scenario">' + r.scene + '</div>';
+    h += '<div class="g-instruction">' + r.q + '</div>';
+    h += '<div class="g-stack">';
+    for (var i = 0; i < r.opts.length; i++) {
+        h += '<div class="g-stack-item" onclick="cChoice(this)">' + r.opts[i] + '</div>';
+    }
+    h += '</div>';
+    a.innerHTML = h;
+}
+
+function cChoice(el) {
+    var r = R[cur];
+    var w = el.textContent;
+    var ok = (w === r.ans);
+
+    var all = document.querySelectorAll(".g-stack-item");
+    for (var i = 0; i < all.length; i++) {
+        all[i].classList.add("off");
+        all[i].style.pointerEvents = "none";
+        if (all[i].textContent === r.ans) {
+            all[i].classList.add("correct");
+        }
+    }
+    if (!ok) { el.classList.add("wrong"); }
+
+    if (ok) { sc++; prog(); }
+    sfb(ok, r.ex);
+    revealHint();
+    snx();
+}
+
+// ===== MATCHING =====
+function rMatch(r, a) {
+    mL = null;
+    mR = null;
+    mC = 0;
+    mP = {};
+
+    for (var i = 0; i < r.pairs.length; i++) {
+        mP[r.pairs[i].l] = r.pairs[i].r;
+    }
+
+    var rr = [];
+    for (var i = 0; i < r.pairs.length; i++) {
+        rr.push(r.pairs[i].r);
+    }
+    for (var i = rr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = rr[i];
+        rr[i] = rr[j];
+        rr[j] = t;
+    }
+
+    var h = '';
+    h += '<div class="g-title">' + r.title + '</div>';
+    if (r.inst) h += '<div class="g-instruction">' + r.inst + '</div>';
+    h += '<div class="g-match-wrap">';
+
+    h += '<div class="g-match-col"><h4>Person</h4>';
+    for (var i = 0; i < r.pairs.length; i++) {
+        h += '<div class="g-match-item g-ml" data-v="' + r.pairs[i].l + '" onclick="cML(this)">' + r.pairs[i].l + '</div>';
+    }
+    h += '</div>';
+
+    h += '<div class="g-match-col"><h4>Possessive</h4>';
+    for (var i = 0; i < rr.length; i++) {
+        h += '<div class="g-match-item g-mr" data-v="' + rr[i] + '" onclick="cMR(this)">' + rr[i] + '</div>';
+    }
+    h += '</div>';
+
+    h += '</div>';
+    a.innerHTML = h;
+}
+
+function cML(el) {
+    if (el.classList.contains("done")) return;
+    var all = document.querySelectorAll(".g-ml");
+    for (var i = 0; i < all.length; i++) all[i].classList.remove("sel");
+    el.classList.add("sel");
+    mL = el.getAttribute("data-v");
+    if (mR) tM();
+}
+
+function cMR(el) {
+    if (el.classList.contains("done")) return;
+    var all = document.querySelectorAll(".g-mr");
+    for (var i = 0; i < all.length; i++) all[i].classList.remove("sel");
+    el.classList.add("sel");
+    mR = el.getAttribute("data-v");
+    if (mL) tM();
+}
+
+function tM() {
+    var r = R[cur];
+    var lE = document.querySelector('.g-ml[data-v="' + mL + '"]');
+    var rE = document.querySelector('.g-mr[data-v="' + mR + '"]');
+
+    if (mP[mL] === mR) {
+        lE.classList.remove("sel");
+        rE.classList.remove("sel");
+        lE.classList.add("done");
+        rE.classList.add("done");
+        lE.innerHTML = "✅ " + mL;
+        rE.innerHTML = "✅ " + mR;
+        mC++;
+        if (mC === r.pairs.length) {
+            sc++;
+            prog();
+            sfb(true, r.ex);
+            revealHint();
+            snx();
+        }
+    } else {
+        lE.classList.add("bad");
+        rE.classList.add("bad");
+        setTimeout(function() {
+            lE.classList.remove("sel", "bad");
+            rE.classList.remove("sel", "bad");
+        }, 500);
+    }
+    mL = null;
+    mR = null;
+}
+
+// ===== FEEDBACK =====
+function sfb(ok, ex) {
+    var f = document.getElementById("gfb");
+    f.className = "g-fb show " + (ok ? "ok" : "no");
+    var html = '<span class="g-fb-icon">' + (ok ? "✅" : "❌") + '</span>';
+    html += '<strong>' + (ok ? "Correct!" : "Not quite.") + '</strong>';
+    if (ex) html += '<div class="g-fb-explain">' + ex + '</div>';
+    f.innerHTML = html;
+}
+
+function hfb() {
+    var f = document.getElementById("gfb");
+    f.className = "g-fb";
+    f.innerHTML = "";
+}
+
+// ===== WORD HELP (HINT SYSTEM) =====
+function shlp(r) {
+    if (!r.hw) {
+        hhlp();
+        return;
+    }
+    var h = document.getElementById("ghelp");
+    h.className = "g-help show";
+    h.setAttribute("data-hw", r.hw);
+    h.setAttribute("data-hv", r.hv);
+    h.setAttribute("data-he", r.he);
+    h.innerHTML = '<div class="g-hint-btn" id="hintbtn" onclick="openHint()" style="cursor:pointer; font-weight:700; color:#f57f17; font-size:0.95em; padding:6px 0;">' +
+        '💡 Need a Hint? <span style="font-size:0.8em; color:#bbb;">(tap to see)</span>' +
+        '</div>' +
+        '<div id="ghintcontent" style="display:none; margin-top:8px; padding-top:8px; border-top:1px dashed #fbc02d;">' +
+        '<span class="g-help-word">' + r.hw + '</span> ' +
+        '<span class="g-help-vn">' + r.hv + '</span>' +
+        '<span class="g-help-ex">' + r.he + '</span>' +
+        '</div>';
+}
+
+function openHint() {
+    var content = document.getElementById("ghintcontent");
+    var btn = document.getElementById("hintbtn");
+    if (content) content.style.display = "block";
+    if (btn) {
+        btn.innerHTML = "💡 Word Help";
+        btn.style.cursor = "default";
+        btn.onclick = null;
+    }
+}
+
+function revealHint() {
+    var content = document.getElementById("ghintcontent");
+    var btn = document.getElementById("hintbtn");
+    if (content) content.style.display = "block";
+    if (btn) {
+        btn.innerHTML = "💡 Word Help";
+        btn.style.cursor = "default";
+        btn.onclick = null;
+    }
+}
+
+function hhlp() {
+    var h = document.getElementById("ghelp");
+    h.className = "g-help";
+    h.innerHTML = "";
+}
+
+// ===== NEXT =====
+function snx() {
+    document.getElementById("gnext").style.display = "block";
+}
+
+function hnx() {
+    document.getElementById("gnext").style.display = "none";
+}
+
+// ===== COMPLETION =====
+function done() {
+    document.getElementById("garea").style.display = "none";
+    document.getElementById("gnext").style.display = "none";
+    hfb();
+    hhlp();
+    document.querySelector(".g-progress").style.display = "none";
+
+    var p = sc / tot;
+    var s = 0;
+    if (p === 1) s = 5;
+    else if (p >= 0.8) s = 4;
+    else if (p >= 0.6) s = 3;
+    else if (p >= 0.4) s = 2;
+    else if (p > 0) s = 1;
+
+    var st = "";
+    for (var i = 0; i < s; i++) st += "⭐";
+    for (var i = s; i < 5; i++) st += "☆";
+
+    var ms = "";
+    if (p === 1) ms = "Perfect! You know your possessives! 🎉";
+    else if (p >= 0.7) ms = "Great job! Almost there! 💪";
+    else ms = "Keep practicing! You'll get it! 🌱";
+
+    var d = document.getElementById("gdone");
+    d.className = "g-done show";
+    d.innerHTML = '<div class="g-done-trophy">🏆</div>' +
+        '<h2>Well Done!</h2>' +
+        '<p class="g-done-score">You got ' + sc + ' out of ' + tot + ' correct!</p>' +
+        '<div class="g-done-stars">' + st + '</div>' +
+        '<p class="g-done-msg">' + ms + '</p>' +
+        '<div class="g-done-btns">' +
+        '<button class="g-retry" onclick="restart()">🔄 Play Again</button>' +
+        '<a href="../index.html" class="g-home">📖 Grammar Hub</a>' +
+        '</div>';
+}
+
+function restart() {
+    cur = 0;
+    sc = 0;
+    document.getElementById("gdone").className = "g-done";
+    document.getElementById("garea").style.display = "block";
+    document.querySelector(".g-progress").style.display = "block";
+    prog();
+    go();
+}
+</script>
+</body>
+</html>
