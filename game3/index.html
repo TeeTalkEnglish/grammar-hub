@@ -171,6 +171,15 @@ function prog() {
     document.getElementById("sc").textContent = sc;
 }
 
+function shuf(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+}
+
 // ===== FILL =====
 function rFill(r, a) {
     var h = '<div class="g-title">' + r.title + '</div>';
@@ -179,9 +188,10 @@ function rFill(r, a) {
     h += '<div class="g-sentence">' + r.pre;
     h += '<span class="g-blank" id="bl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
     h += r.post + '</div>';
+       var mixed = shuf(r.opts);
     h += '<div class="g-choices">';
-    for (var i = 0; i < r.opts.length; i++) {
-        h += '<div class="g-choice" data-w="' + r.opts[i] + '" onclick="cFill(this)">' + r.opts[i] + '</div>';
+    for (var i = 0; i < mixed.length; i++) {
+        h += '<div class="g-choice" data-w="' + mixed[i] + '" onclick="cFill(this)">' + mixed[i] + '</div>';
     }
     h += '</div>';
     a.innerHTML = h;
@@ -214,6 +224,7 @@ function cFill(el) {
         prog();
     }
     sfb(ok, r.ex);
+    revH(); 
     snx();
 }
 
@@ -223,9 +234,10 @@ function rChoice(r, a) {
     if (r.vis) h += '<div class="g-visual">' + r.vis + '</div>';
     if (r.scene) h += '<div class="g-scenario">' + r.scene + '</div>';
     h += '<div class="g-instruction">' + r.q + '</div>';
+        var mixed = shuf(r.opts);
     h += '<div class="g-stack">';
-    for (var i = 0; i < r.opts.length; i++) {
-        h += '<div class="g-stack-item" onclick="cChoice(this)">' + r.opts[i] + '</div>';
+    for (var i = 0; i < mixed.length; i++) {
+        h += '<div class="g-stack-item" onclick="cChoice(this)">' + mixed[i] + '</div>';
     }
     h += '</div>';
     a.innerHTML = h;
@@ -253,6 +265,7 @@ function cChoice(el) {
         prog();
     }
     sfb(ok, r.ex);
+    revH();
     snx();
 }
 
@@ -329,6 +342,7 @@ function tM() {
             sc++;
             prog();
             sfb(true, r.ex);
+            revH();
             snx();
         }
     } else {
@@ -361,14 +375,33 @@ function hfb() {
 
 // ===== HELP =====
 function shlp(r) {
-    if (!r.hw) return;
+    if (!r.hw) { hhlp(); return; }
     var h = document.getElementById("ghelp");
     h.className = "g-help show";
-    h.innerHTML = '<div class="g-help-label">💡 Word Help</div>' +
+    h.innerHTML = '<div id="hbtn" onclick="openH()" style="cursor:pointer; font-weight:700; color:#f57f17; font-size:0.95em; padding:6px 0;">' +
+        '💡 Need a Hint? <span style="font-size:0.8em; color:#bbb;">(tap to see)</span>' +
+        '</div>' +
+        '<div id="hcon" style="display:none; margin-top:8px; padding-top:8px; border-top:1px dashed #fbc02d;">' +
         '<span class="g-help-word">' + r.hw + '</span> ' +
         '<span class="g-help-vn">' + r.hv + '</span>' +
-        '<span class="g-help-ex">' + r.he + '</span>';
+        '<span class="g-help-ex">' + r.he + '</span>' +
+        '</div>';
 }
+
+function openH() {
+    var c = document.getElementById("hcon");
+    var b = document.getElementById("hbtn");
+    if (c) c.style.display = "block";
+    if (b) { b.innerHTML = "💡 Word Help"; b.style.cursor = "default"; b.onclick = null; }
+}
+
+function revH() {
+    var c = document.getElementById("hcon");
+    var b = document.getElementById("hbtn");
+    if (c) c.style.display = "block";
+    if (b) { b.innerHTML = "💡 Word Help"; b.style.cursor = "default"; b.onclick = null; }
+}
+
 
 function hhlp() {
     document.getElementById("ghelp").className = "g-help";

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeeTalkEnglish - Possessives: My, Your, His, Her</title>
+    <title>TeeTalkEnglish - Pronouns: I, He, She, It, We, You, They</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
     <div class="game-wrap">
         <div class="game-top">
             <a href="../index.html" class="nav-link">← Back</a>
-            <h1>👆 My, Your, His, Her</h1>
+            <h1>👥 I, He, She, We, They</h1>
             <div class="game-score">⭐ <span id="sc">0</span> / <span id="tt">8</span></div>
         </div>
         <div class="g-progress">
@@ -36,122 +36,81 @@
 <script>
 var R = [
     {
-        t: "fill",
-        title: "✏️ Fill in the Blank",
-        vis: "👩🎒",
-        scene: "A girl has a backpack. It belongs to her.",
-        pre: "This is ",
-        post: " backpack.",
-        ans: "her",
-        opts: ["her", "his", "my", "your"],
-        hw: "her",
-        hv: "của cô ấy",
-        he: "she → her. Use 'her' for a woman/girl.",
-        ex: "'Her' = belongs to she. She → her backpack."
+        t:"fill", title:"✏️ Fill in the Blank",
+        vis:"🙋", scene:"You are talking about yourself.",
+        pre:"", post:" am happy today.",
+        ans:"I", opts:["I","He","She","You"],
+        hw:"I", hv:"tôi", he:"Use 'I' when talking about yourself. Always capital!",
+        ex:"'I' = yourself. Always write 'I' with a capital letter."
     },
     {
-        t: "fill",
-        title: "✏️ Fill in the Blank",
-        vis: "🙋📱",
-        scene: "You are holding your phone. It belongs to you.",
-        pre: "This is ",
-        post: " phone.",
-        ans: "my",
-        opts: ["my", "your", "his", "our"],
-        hw: "my",
-        hv: "của tôi",
-        he: "I → my. Use 'my' when it belongs to you.",
-        ex: "'My' = belongs to me. I → my phone."
+        t:"fill", title:"✏️ Fill in the Blank",
+        vis:"👩🎵", scene:"A woman is singing. You talk about her.",
+        pre:"", post:" is singing a song.",
+        ans:"She", opts:["She","He","It","They"],
+        hw:"she", hv:"cô ấy", he:"Use 'she' for one woman or girl.",
+        ex:"'She' = one female person. The woman → She."
     },
     {
-        t: "fill",
-        title: "✏️ Fill in the Blank",
-        vis: "👨🚗",
-        scene: "A man is standing next to a car. It belongs to him.",
-        pre: "That is ",
-        post: " car.",
-        ans: "his",
-        opts: ["his", "her", "my", "their"],
-        hw: "his",
-        hv: "của anh ấy",
-        he: "he → his. Use 'his' for a man/boy.",
-        ex: "'His' = belongs to he. He → his car."
+        t:"fill", title:"✏️ Fill in the Blank",
+        vis:"👨📖", scene:"A man is reading a book.",
+        pre:"", post:" is reading a book.",
+        ans:"He", opts:["He","She","I","We"],
+        hw:"he", hv:"anh ấy", he:"Use 'he' for one man or boy.",
+        ex:"'He' = one male person. The man → He."
     },
     {
-        t: "choice",
-        title: "💬 Choose the Correct Sentence",
-        vis: "👩‍🏫💬",
-        scene: "The teacher asks a student for their name.",
-        q: "Which sentence is correct?",
-        ans: "What is your name?",
-        opts: [
-            "What is your name?",
-            "What is you name?",
-            "What is my name?",
-            "What is her name?"
+        t:"fill", title:"✏️ Fill in the Blank",
+        vis:"☀️🌡️", scene:"You talk about the weather today.",
+        pre:"", post:" is very hot today.",
+        ans:"It", opts:["It","He","She","They"],
+        hw:"it", hv:"nó", he:"Use 'it' for things, weather, animals, or time.",
+        ex:"'It' = things/weather/time. The weather → It is hot."
+    },
+    {
+        t:"fill", title:"✏️ Fill in the Blank",
+        vis:"👩🧑🍽️", scene:"You and your friend are eating together.",
+        pre:"", post:" are eating lunch.",
+        ans:"We", opts:["We","They","You","I"],
+        hw:"we", hv:"chúng tôi", he:"Use 'we' for yourself + other people together.",
+        ex:"'We' = me + someone else. Me + friend → We."
+    },
+    {
+        t:"fill", title:"✏️ Fill in the Blank",
+        vis:"👩‍🏫💬", scene:"You are talking TO your friend directly.",
+        pre:"", post:" are very smart!",
+        ans:"You", opts:["You","We","They","She"],
+        hw:"you", hv:"bạn", he:"Use 'you' when talking TO someone.",
+        ex:"'You' = the person you talk to. Talking to friend → You."
+    },
+    {
+        t:"choice", title:"💬 Choose the Correct Sentence",
+        vis:"👧👦🏃", scene:"Two children are running in the park.",
+        q:"Which sentence is correct?",
+        ans:"They are running fast.",
+        opts:[
+            "They are running fast.",
+            "He are running fast.",
+            "We are running fast.",
+            "It are running fast."
         ],
-        hw: "your",
-        hv: "của bạn",
-        he: "you → your. Use 'your' when talking TO someone.",
-        ex: "When you ask someone directly, use 'your' (not 'you')."
+        hw:"they", hv:"họ", he:"Use 'they' for other people (more than 1).",
+        ex:"'They' = other people (plural). Two children → They."
     },
     {
-        t: "fill",
-        title: "✏️ Fill in the Blank",
-        vis: "👫🏠",
-        scene: "You and your friend share a house. It belongs to both of you.",
-        pre: "This is ",
-        post: " house.",
-        ans: "our",
-        opts: ["our", "my", "your", "their"],
-        hw: "our",
-        hv: "của chúng tôi",
-        he: "we → our. Use 'our' for me + other people.",
-        ex: "'Our' = belongs to we. We share it → our house."
-    },
-    {
-        t: "fill",
-        title: "✏️ Fill in the Blank",
-        vis: "👨‍👩‍👧‍👦🐕",
-        scene: "A family has a dog. The dog belongs to them.",
-        pre: "That is ",
-        post: " dog.",
-        ans: "their",
-        opts: ["their", "our", "his", "your"],
-        hw: "their",
-        hv: "của họ",
-        he: "they → their. Use 'their' for a group of other people.",
-        ex: "'Their' = belongs to they. The family → their dog."
-    },
-    {
-        t: "match",
-        title: "🔗 Match: Person → Possessive",
-        inst: "Match each pronoun to the correct possessive word.",
-        pairs: [
-            { l: "I →", r: "my" },
-            { l: "you →", r: "your" },
-            { l: "he →", r: "his" },
-            { l: "she →", r: "her" },
-            { l: "we →", r: "our" }
+        t:"match", title:"🔗 Match: Picture → Pronoun",
+        inst:"Match each picture to the correct pronoun.",
+        pairs:[
+            {l:"🙋 (myself)", r:"I"},
+              {l:"💬 (talking to someone)", r:"you"},
+            {l:"👩 (one woman)", r:"she"},
+            {l:"👨 (one man)", r:"he"},
+            {l:"🏠 (a thing)", r:"it"},
+            {l:"👫👫 (other people)", r:"they"},
+            {l:"👩🧑 (me + friend)", r:"we"},
         ],
-        hw: "possessives",
-        hv: "sở hữu",
-        he: "Possessive words show who owns something.",
-        ex: "I→my, you→your, he→his, she→her, we→our"
-    },
-    {
-        t: "fill",
-        title: "✏️ Fill in the Blank",
-        vis: "🐱🥣",
-        scene: "A cat is eating food. The food belongs to the cat.",
-        pre: "The cat is eating ",
-        post: " food.",
-        ans: "its",
-        opts: ["its", "his", "her", "their"],
-        hw: "its",
-        hv: "của nó (vật)",
-        he: "it → its. Use 'its' for things or animals. No apostrophe!",
-        ex: "'Its' = belongs to it. The cat (it) → its food."
+        hw:"pronouns", hv:"đại từ", he:"Pronouns replace names. 'The man' → 'he'.",
+        ex:"I=myself, she=woman, he=man, it=thing, they=group"
     }
 ];
 
@@ -167,6 +126,17 @@ window.onload = function() {
     go();
 };
 
+function shuf(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+    }
+    return a;
+}
+
 function go() {
     if (cur >= tot) {
         done();
@@ -179,15 +149,9 @@ function go() {
     hhlp();
     var a = document.getElementById("garea");
     a.style.display = "block";
-
-    if (r.t === "fill") {
-        rFill(r, a);
-    } else if (r.t === "choice") {
-        rChoice(r, a);
-    } else if (r.t === "match") {
-        rMatch(r, a);
-    }
-
+    if (r.t === "fill") rFill(r, a);
+    else if (r.t === "choice") rChoice(r, a);
+    else if (r.t === "match") rMatch(r, a);
     shlp(r);
 }
 
@@ -204,18 +168,16 @@ function prog() {
 
 // ===== FILL IN THE BLANK =====
 function rFill(r, a) {
-    var h = '';
-    h += '<div class="g-title">' + r.title + '</div>';
+    var h = '<div class="g-title">' + r.title + '</div>';
     if (r.vis) h += '<div class="g-visual">' + r.vis + '</div>';
     if (r.scene) h += '<div class="g-scenario">' + r.scene + '</div>';
-    h += '<div class="g-sentence">';
-    h += r.pre;
+    h += '<div class="g-sentence">' + r.pre;
     h += '<span class="g-blank" id="bl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
-    h += r.post;
-    h += '</div>';
+    h += r.post + '</div>';
+       var mixed = shuf(r.opts);
     h += '<div class="g-choices">';
-    for (var i = 0; i < r.opts.length; i++) {
-        h += '<div class="g-choice" data-w="' + r.opts[i] + '" onclick="cFill(this)">' + r.opts[i] + '</div>';
+    for (var i = 0; i < mixed.length; i++) {
+        h += '<div class="g-choice" data-w="' + mixed[i] + '" onclick="cFill(this)">' + mixed[i] + '</div>';
     }
     h += '</div>';
     a.innerHTML = h;
@@ -243,22 +205,25 @@ function cFill(el) {
     bl.style.borderBottomStyle = "solid";
     bl.style.borderBottomColor = ok ? "#4caf50" : "#ef5350";
 
-    if (ok) { sc++; prog(); }
+    if (ok) {
+        sc++;
+        prog();
+    }
     sfb(ok, r.ex);
-    revealHint();
+        revH();
     snx();
 }
 
 // ===== MULTIPLE CHOICE =====
 function rChoice(r, a) {
-    var h = '';
-    h += '<div class="g-title">' + r.title + '</div>';
+    var h = '<div class="g-title">' + r.title + '</div>';
     if (r.vis) h += '<div class="g-visual">' + r.vis + '</div>';
     if (r.scene) h += '<div class="g-scenario">' + r.scene + '</div>';
     h += '<div class="g-instruction">' + r.q + '</div>';
+       var mixed = shuf(r.opts);
     h += '<div class="g-stack">';
-    for (var i = 0; i < r.opts.length; i++) {
-        h += '<div class="g-stack-item" onclick="cChoice(this)">' + r.opts[i] + '</div>';
+    for (var i = 0; i < mixed.length; i++) {
+        h += '<div class="g-stack-item" onclick="cChoice(this)">' + mixed[i] + '</div>';
     }
     h += '</div>';
     a.innerHTML = h;
@@ -277,11 +242,16 @@ function cChoice(el) {
             all[i].classList.add("correct");
         }
     }
-    if (!ok) { el.classList.add("wrong"); }
+    if (!ok) {
+        el.classList.add("wrong");
+    }
 
-    if (ok) { sc++; prog(); }
+    if (ok) {
+        sc++;
+        prog();
+    }
     sfb(ok, r.ex);
-    revealHint();
+        revH();
     snx();
 }
 
@@ -296,6 +266,7 @@ function rMatch(r, a) {
         mP[r.pairs[i].l] = r.pairs[i].r;
     }
 
+    // Shuffle right column
     var rr = [];
     for (var i = 0; i < r.pairs.length; i++) {
         rr.push(r.pairs[i].r);
@@ -307,24 +278,19 @@ function rMatch(r, a) {
         rr[j] = t;
     }
 
-    var h = '';
-    h += '<div class="g-title">' + r.title + '</div>';
+    var h = '<div class="g-title">' + r.title + '</div>';
     if (r.inst) h += '<div class="g-instruction">' + r.inst + '</div>';
     h += '<div class="g-match-wrap">';
-
-    h += '<div class="g-match-col"><h4>Person</h4>';
+    h += '<div class="g-match-col"><h4>Picture</h4>';
     for (var i = 0; i < r.pairs.length; i++) {
         h += '<div class="g-match-item g-ml" data-v="' + r.pairs[i].l + '" onclick="cML(this)">' + r.pairs[i].l + '</div>';
     }
     h += '</div>';
-
-    h += '<div class="g-match-col"><h4>Possessive</h4>';
+    h += '<div class="g-match-col"><h4>Pronoun</h4>';
     for (var i = 0; i < rr.length; i++) {
         h += '<div class="g-match-item g-mr" data-v="' + rr[i] + '" onclick="cMR(this)">' + rr[i] + '</div>';
     }
-    h += '</div>';
-
-    h += '</div>';
+    h += '</div></div>';
     a.innerHTML = h;
 }
 
@@ -363,7 +329,7 @@ function tM() {
             sc++;
             prog();
             sfb(true, r.ex);
-            revealHint();
+            revH();
             snx();
         }
     } else {
@@ -394,53 +360,37 @@ function hfb() {
     f.innerHTML = "";
 }
 
-// ===== WORD HELP (HINT SYSTEM) =====
+// ===== HELP =====
 function shlp(r) {
-    if (!r.hw) {
-        hhlp();
-        return;
-    }
+    if (!r.hw) { hhlp(); return; }
     var h = document.getElementById("ghelp");
     h.className = "g-help show";
-    h.setAttribute("data-hw", r.hw);
-    h.setAttribute("data-hv", r.hv);
-    h.setAttribute("data-he", r.he);
-    h.innerHTML = '<div class="g-hint-btn" id="hintbtn" onclick="openHint()" style="cursor:pointer; font-weight:700; color:#f57f17; font-size:0.95em; padding:6px 0;">' +
+    h.innerHTML = '<div id="hbtn" onclick="openH()" style="cursor:pointer; font-weight:700; color:#f57f17; font-size:0.95em; padding:6px 0;">' +
         '💡 Need a Hint? <span style="font-size:0.8em; color:#bbb;">(tap to see)</span>' +
         '</div>' +
-        '<div id="ghintcontent" style="display:none; margin-top:8px; padding-top:8px; border-top:1px dashed #fbc02d;">' +
+        '<div id="hcon" style="display:none; margin-top:8px; padding-top:8px; border-top:1px dashed #fbc02d;">' +
         '<span class="g-help-word">' + r.hw + '</span> ' +
         '<span class="g-help-vn">' + r.hv + '</span>' +
         '<span class="g-help-ex">' + r.he + '</span>' +
         '</div>';
 }
 
-function openHint() {
-    var content = document.getElementById("ghintcontent");
-    var btn = document.getElementById("hintbtn");
-    if (content) content.style.display = "block";
-    if (btn) {
-        btn.innerHTML = "💡 Word Help";
-        btn.style.cursor = "default";
-        btn.onclick = null;
-    }
+function openH() {
+    var c = document.getElementById("hcon");
+    var b = document.getElementById("hbtn");
+    if (c) c.style.display = "block";
+    if (b) { b.innerHTML = "💡 Word Help"; b.style.cursor = "default"; b.onclick = null; }
 }
 
-function revealHint() {
-    var content = document.getElementById("ghintcontent");
-    var btn = document.getElementById("hintbtn");
-    if (content) content.style.display = "block";
-    if (btn) {
-        btn.innerHTML = "💡 Word Help";
-        btn.style.cursor = "default";
-        btn.onclick = null;
-    }
+function revH() {
+    var c = document.getElementById("hcon");
+    var b = document.getElementById("hbtn");
+    if (c) c.style.display = "block";
+    if (b) { b.innerHTML = "💡 Word Help"; b.style.cursor = "default"; b.onclick = null; }
 }
 
 function hhlp() {
-    var h = document.getElementById("ghelp");
-    h.className = "g-help";
-    h.innerHTML = "";
+    document.getElementById("ghelp").className = "g-help";
 }
 
 // ===== NEXT =====
@@ -473,7 +423,7 @@ function done() {
     for (var i = s; i < 5; i++) st += "☆";
 
     var ms = "";
-    if (p === 1) ms = "Perfect! You know your possessives! 🎉";
+    if (p === 1) ms = "Perfect! You know all the pronouns! 🎉";
     else if (p >= 0.7) ms = "Great job! Almost there! 💪";
     else ms = "Keep practicing! You'll get it! 🌱";
 
