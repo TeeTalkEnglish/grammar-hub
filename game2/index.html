@@ -214,9 +214,11 @@ function rFill(r, a) {
     h += r.post;
     h += '</div>';
     h += '<div class="g-choices">';
-    for (var i = 0; i < r.opts.length; i++) {
-        h += '<div class="g-choice" data-w="' + r.opts[i] + '" onclick="cFill(this)">' + r.opts[i] + '</div>';
-    }
+   var shuffledOpts = shuf(r.opts);
+
+for (var i = 0; i < shuffledOpts.length; i++) {
+    h += '<div class="g-choice" data-w="' + shuffledOpts[i] + '" onclick="cFill(this)">' + shuffledOpts[i] + '</div>';
+}
     h += '</div>';
     a.innerHTML = h;
 }
@@ -249,19 +251,35 @@ function cFill(el) {
     snx();
 }
 
-// ===== MULTIPLE CHOICE =====
+// ===== CHOICE =====
 function rChoice(r, a) {
-    var h = '';
-    h += '<div class="g-title">' + r.title + '</div>';
+    var h = '<div class="g-title">' + r.title + '</div>';
     if (r.vis) h += '<div class="g-visual">' + r.vis + '</div>';
     if (r.scene) h += '<div class="g-scenario">' + r.scene + '</div>';
     h += '<div class="g-instruction">' + r.q + '</div>';
+
+    // Shuffle the options
+    var shuffledOpts = shuf(r.opts);
+    console.log("Shuffled options:", shuffledOpts);
+
     h += '<div class="g-stack">';
-    for (var i = 0; i < r.opts.length; i++) {
-        h += '<div class="g-stack-item" onclick="cChoice(this)">' + r.opts[i] + '</div>';
+    for (var i = 0; i < shuffledOpts.length; i++) {
+        h += '<div class="g-stack-item" onclick="cChoice(this)">' + shuffledOpts[i] + '</div>';
     }
     h += '</div>';
+
     a.innerHTML = h;
+}
+
+function shuf(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+    }
+    return a;
 }
 
 function cChoice(el) {
