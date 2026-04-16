@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeeTalkEnglish - This & That</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="logo">
+            <span class="logo-icon">🎓</span>
+            <span class="logo-text">TeeTalkEnglish</span>
+        </a>
+        <a href="../index.html" class="nav-link">← Grammar Hub</a>
+    </nav>
+
+    <div class="game-wrap">
+        <div class="game-top">
+            <a href="../index.html" class="nav-link">← Back</a>
+            <h1>👉 This & That</h1>
+            <div class="game-score">⭐ <span id="sc">0</span> / <span id="tt">8</span></div>
+        </div>
+        <div class="g-progress">
+            <div class="g-progress-track"><div class="g-progress-fill" id="pbar"></div></div>
+            <span class="g-progress-text" id="ptxt">Round 1 of 8</span>
+        </div>
+        <div class="g-area" id="garea"></div>
+        <div class="g-fb" id="gfb"></div>
+        <div class="g-help" id="ghelp"></div>
+<div class="g-nav">
+    <button class="g-prev-btn" onclick="prv()">← Previous</button>
+    <button class="g-next-btn" onclick="nxt()">Next →</button>
+</div>        <div class="g-done" id="gdone"></div>
+    </div>
+    <footer><p>TeeTalkEnglish © 2024 | Pensauken, NJ</p></footer>
+
+<script>
+var R = [
+    {
+    t: "match",
+    title: "🔗 Match Question → Meaning (Vietnamese)",
+    inst: "Match each question word with its meaning.",
+    pairs: [
+        { l: "What →", r: "cái gì" },
+        { l: "Where →", r: "ở đâu" },
+        { l: "When →", r: "khi nào" },
+        { l: "Who →", r: "ai" },
+        { l: "Why →", r: "tại sao" },
+        { l: "How →", r: "như thế nào" }
+    ],
+    hw: "WH questions",
+    hv: "câu hỏi",
+    he: "These words help you ask questions.",
+    ex: "What = cái gì, Where = ở đâu, When = khi nào"
+},
+{
+    t: "fill",
+    title: "✏️ Fill in the Question Word",
+    vis: "📍",
+    scene: "You want to know a place.",
+    pre: "",
+    post: " do you live?",
+    ans: "Where",
+    opts: ["Where", "When", "What", "How"],
+    hw: "Where",
+    hv: "ở đâu",
+    he: "Use 'Where' for places.",
+    ex: "Where do you live?"
+},
+{
+    t: "fill",
+    title: "✏️ Ask the Client",
+    vis: "👣",
+    scene: "Client wants nail service location.",
+    pre: "",
+    post: " do you want the design? (hands or feet)",
+    ans: "Where",
+    opts: ["Where", "What", "When", "Why"],
+    hw: "Where",
+    hv: "ở đâu",
+    he: "Use 'Where' for place.",
+    ex: "Where do you want the design?"
+},
+{
+    t: "fill",
+    title: "📅 Booking Question",
+    vis: "📆",
+    scene: "You want to schedule next visit.",
+    pre: "",
+    post: " do you want to come back?",
+    ans: "When",
+    opts: ["When", "Where", "What", "How"],
+    hw: "When",
+    hv: "khi nào",
+    he: "Use 'When' for time.",
+    ex: "When do you want to come back?"
+},
+{
+    t: "fill",
+    title: "✏️ Fill in the Question Word",
+    vis: "⏰",
+    scene: "You want to know the time.",
+    pre: "",
+    post: " is your class?",
+    ans: "When",
+    opts: ["When", "Where", "Why", "How"],
+    hw: "When",
+    hv: "khi nào",
+    he: "Use 'When' for time.",
+    ex: "When is your class?"
+},
+{
+    t: "fill",
+    title: "✏️ Fill in the Question Word",
+    vis: "📦",
+    scene: "You want to know a thing.",
+    pre: "",
+    post: " color do you want?",
+    ans: "What",
+    opts: ["What", "Where", "Who", "How"],
+    hw: "What",
+    hv: "cái gì",
+    he: "Use 'What' to ask about choices.",
+    ex: "What color do you want?"
+},
+{
+    t: "fill",
+    title: "✏️ Ask the Client",
+    vis: "💅",
+    scene: "You show two designs.",
+    pre: "",
+    post: " design do you like?",
+    ans: "Which",
+    opts: ["Which", "What", "Where", "How"],
+    hw: "Which",
+    hv: "cái nào",
+    he: "Use 'Which' when giving options.",
+    ex: "Which design do you like?"
+},
+{
+    t: "fill",
+    title: "✏️ Fill in the Question Word",
+    vis: "👤",
+    scene: "You want to know a person.",
+    pre: "",
+    post: " is she?",
+    ans: "Who",
+    opts: ["Who", "What", "Where", "When"],
+    hw: "Who",
+    hv: "ai",
+    he: "Use 'Who' for people.",
+    ex: "Who is she?"
+},
+{
+    t: "fill",
+    title: "✏️ Fill in the Question Word",
+    vis: "🤔",
+    scene: "You want to know a reason.",
+    pre: "",
+    post: " are you late?",
+    ans: "Why",
+    opts: ["Why", "When", "Where", "How"],
+    hw: "Why",
+    hv: "tại sao",
+    he: "Use 'Why' for reasons.",
+    ex: "Why are you late?"
+},
+{
+    t: "fill",
+    title: "✏️ Ask the Client",
+    vis: "🛠️",
+    scene: "You want to know removal method.",
+    pre: "",
+    post: " do you want to remove this?",
+    ans: "How",
+    opts: ["How", "What", "Where", "Why"],
+    hw: "How",
+    hv: "như thế nào",
+    he: "Use 'How' for method.",
+    ex: "How do you want to remove this?"
+},
+{
+    t: "fill",
+    title: "💰 Ask About Price",
+    vis: "💵",
+    scene: "You talk about cost.",
+    pre: "",
+    post: " is this design?",
+    ans: "How much",
+    opts: ["How much", "What", "When", "Where"],
+    hw: "How much",
+    hv: "bao nhiêu tiền",
+    he: "Use 'How much' for price.",
+    ex: "How much is this design?"
+},
+{
+    t: "choice",
+    title: "💬 Choose the Correct Question",
+    scene: "You want to know someone's name.",
+    q: "What should you ask?",
+    ans: "What is your name?",
+    opts: [
+        "What is your name?",
+        "Where is your name?",
+        "When is your name?",
+        "How is your name?"
+    ],
+    hw: "What",
+    hv: "cái gì",
+    he: "Use 'What' for information.",
+    ex: "What is your name?"
+},
+{
+    t: "choice",
+    title: "💬 Real Salon Question",
+    scene: "Client is choosing a service.",
+    q: "What should you ask?",
+    ans: "What shape do you want?",
+    opts: [
+        "What shape do you want?",
+        "Where shape do you want?",
+        "When shape do you want?",
+        "How shape do you want?"
+    ],
+    hw: "What",
+    hv: "cái gì",
+    he: "Use 'What' for preferences.",
+    ex: "What shape do you want?"
+},
+{
+    t: "match",
+    title: "🔗 Nail Salon Questions",
+    inst: "Match English questions with Vietnamese meaning.",
+    pairs: [
+        { l: "What color do you want?", r: "Bạn muốn màu gì?" },
+        { l: "Which design do you like?", r: "Bạn thích mẫu nào?" },
+        { l: "How much is this?", r: "Cái này bao nhiêu tiền?" },
+        { l: "When do you want to come back?", r: "Khi nào bạn muốn quay lại?" },
+        { l: "How do you want to remove this?", r: "Bạn muốn tháo như thế nào?" }
+    ]
+},
+{
+    t: "match",
+    title: "🔗 Match Question → Meaning",
+    inst: "Match each question word to its meaning.",
+    pairs: [
+        { l: "What →", r: "thing / information" },
+        { l: "Where →", r: "place" },
+        { l: "When →", r: "time" },
+        { l: "Who →", r: "person" },
+        { l: "Why →", r: "reason" },
+        { l: "How →", r: "method / way" }
+    ],
+    hw: "WH questions",
+    hv: "câu hỏi",
+    he: "These words help you ask questions.",
+    ex: "What, Where, When, Who, Why, How"
+}
+];
+
+
+var cur = 0;
+var sc = 0;
+var tot = R.length;
+var mL = null;
+var mR = null;
+var mC = 0;
+var mP = {};
+
+window.onload = function() {
+    go();
+};
+
+function go() {
+    if (cur >= tot) {
+        done();
+        return;
+    }
+
+    var r = R[cur];
+    prog();
+    hfb();
+    hhlp();
+
+    // CONTROL NAV BUTTONS
+    document.querySelector(".g-prev-btn").style.display = (cur === 0) ? "none" : "inline-block";
+    document.querySelector(".g-next-btn").style.display = "none";
+
+    var a = document.getElementById("garea");
+    a.style.display = "block";
+
+    if (r.t === "fill") rFill(r, a);
+    else if (r.t === "choice") rChoice(r, a);
+    else if (r.t === "match") rMatch(r, a);
+
+    shlp(r);
+}
+
+function prv() {
+    if (cur > 0) {
+        cur--;
+        go();
+    }
+}
+
+function go() {
+    if (cur >= tot) {
+        done();
+        return;
+    }
+    var r = R[cur];
+    prog();
+    hfb();
+    hhlp();
+    var a = document.getElementById("garea");
+    a.style.display = "block";
+    if (r.t === "fill") rFill(r, a);
+    else if (r.t === "choice") rChoice(r, a);
+    else if (r.t === "match") rMatch(r, a);
+    shlp(r);
+}
+
+function nxt() {
+    cur++;
+    go();
+}
+
+function prog() {
+    document.getElementById("pbar").style.width = (cur / tot * 100) + "%";
+    document.getElementById("ptxt").textContent = "Round " + (cur + 1) + " of " + tot;
+    document.getElementById("sc").textContent = sc;
+}
+
+function shuf(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+}
+
+// ===== FILL =====
+function rFill(r, a) {
+    var h = '<div class="g-title">' + r.title + '</div>';
+    if (r.vis) h += '<div class="g-visual">' + r.vis + '</div>';
+    if (r.scene) h += '<div class="g-scenario">' + r.scene + '</div>';
+    h += '<div class="g-sentence">' + r.pre;
+    h += '<span class="g-blank" id="bl"></span>';
+    h += r.post + '</div>';
+       var mixed = shuf(r.opts);
+    h += '<div class="g-choices">';
+    for (var i = 0; i < mixed.length; i++) {
+        h += '<div class="g-choice" data-w="' + mixed[i] + '" onclick="cFill(this)">' + mixed[i] + '</div>';
+    }
+    h += '</div>';
+    a.innerHTML = h;
+}
+
+function cFill(el) {
+    var r = R[cur];
+    var w = el.getAttribute("data-w");
+    var ok = (w.toLowerCase() === r.ans.toLowerCase());
+
+    var all = document.querySelectorAll(".g-choice");
+    for (var i = 0; i < all.length; i++) {
+        all[i].classList.add("off");
+        all[i].style.pointerEvents = "none";
+        if (all[i].getAttribute("data-w").toLowerCase() === r.ans.toLowerCase()) {
+            all[i].classList.add("correct");
+        }
+        if (all[i].getAttribute("data-w") === w && !ok) {
+            all[i].classList.add("wrong");
+        }
+    }
+
+    var bl = document.getElementById("bl");
+    bl.textContent = r.ans;
+    bl.style.borderBottomStyle = "solid";
+    bl.style.borderBottomColor = ok ? "#4caf50" : "#ef5350";
+
+    if (ok) {
+        sc++;
+        prog();
+    }
+    sfb(ok, r.ex);
+    revH(); 
+    snx();
+}
+
+// ===== CHOICE =====
+function rChoice(r, a) {
+    var h = '<div class="g-title">' + r.title + '</div>';
+    if (r.vis) h += '<div class="g-visual">' + r.vis + '</div>';
+    if (r.scene) h += '<div class="g-scenario">' + r.scene + '</div>';
+    h += '<div class="g-instruction">' + r.q + '</div>';
+        var mixed = shuf(r.opts);
+    h += '<div class="g-stack">';
+    for (var i = 0; i < mixed.length; i++) {
+        h += '<div class="g-stack-item" onclick="cChoice(this)">' + mixed[i] + '</div>';
+    }
+    h += '</div>';
+    a.innerHTML = h;
+}
+
+function cChoice(el) {
+    var r = R[cur];
+    var w = el.textContent;
+    var ok = (w === r.ans);
+
+    var all = document.querySelectorAll(".g-stack-item");
+    for (var i = 0; i < all.length; i++) {
+        all[i].classList.add("off");
+        all[i].style.pointerEvents = "none";
+        if (all[i].textContent === r.ans) {
+            all[i].classList.add("correct");
+        }
+    }
+    if (!ok) {
+        el.classList.add("wrong");
+    }
+
+    if (ok) {
+        sc++;
+        prog();
+    }
+    sfb(ok, r.ex);
+    revH();
+    snx();
+}
+
+// ===== MATCH =====
+function rMatch(r, a) {
+    mL = null;
+    mR = null;
+    mC = 0;
+    mP = {};
+
+    for (var i = 0; i < r.pairs.length; i++) {
+        mP[r.pairs[i].l] = r.pairs[i].r;
+    }
+
+    var rr = [];
+    for (var i = 0; i < r.pairs.length; i++) {
+        rr.push(r.pairs[i].r);
+    }
+    for (var i = rr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = rr[i];
+        rr[i] = rr[j];
+        rr[j] = t;
+    }
+
+    var h = '<div class="g-title">' + r.title + '</div>';
+    if (r.inst) h += '<div class="g-instruction">' + r.inst + '</div>';
+    h += '<div class="g-match-wrap">';
+    h += '<div class="g-match-col"><h4>Rule</h4>';
+    for (var i = 0; i < r.pairs.length; i++) {
+        h += '<div class="g-match-item g-ml" data-v="' + r.pairs[i].l + '" onclick="cML(this)">' + r.pairs[i].l + '</div>';
+    }
+    h += '</div>';
+    h += '<div class="g-match-col"><h4>Word</h4>';
+    for (var i = 0; i < rr.length; i++) {
+        h += '<div class="g-match-item g-mr" data-v="' + rr[i] + '" onclick="cMR(this)">' + rr[i] + '</div>';
+    }
+    h += '</div></div>';
+    a.innerHTML = h;
+}
+
+function cML(el) {
+    if (el.classList.contains("done")) return;
+    var all = document.querySelectorAll(".g-ml");
+    for (var i = 0; i < all.length; i++) all[i].classList.remove("sel");
+    el.classList.add("sel");
+    mL = el.getAttribute("data-v");
+    if (mR) tM();
+}
+
+function cMR(el) {
+    if (el.classList.contains("done")) return;
+    var all = document.querySelectorAll(".g-mr");
+    for (var i = 0; i < all.length; i++) all[i].classList.remove("sel");
+    el.classList.add("sel");
+    mR = el.getAttribute("data-v");
+    if (mL) tM();
+}
+
+function tM() {
+    var r = R[cur];
+    var lE = document.querySelector('.g-ml[data-v="' + mL + '"]');
+    var rE = document.querySelector('.g-mr[data-v="' + mR + '"]');
+
+    if (mP[mL] === mR) {
+        lE.classList.remove("sel");
+        rE.classList.remove("sel");
+        lE.classList.add("done");
+        rE.classList.add("done");
+        lE.innerHTML = "✅ " + mL;
+        rE.innerHTML = "✅ " + mR;
+        mC++;
+        if (mC === r.pairs.length) {
+            sc++;
+            prog();
+            sfb(true, r.ex);
+            revH();
+            snx();
+        }
+    } else {
+        lE.classList.add("bad");
+        rE.classList.add("bad");
+        setTimeout(function() {
+            lE.classList.remove("sel", "bad");
+            rE.classList.remove("sel", "bad");
+        }, 500);
+    }
+    mL = null;
+    mR = null;
+}
+
+// ===== FEEDBACK =====
+function sfb(ok, ex) {
+    var f = document.getElementById("gfb");
+    f.className = "g-fb show " + (ok ? "ok" : "no");
+    var html = '<span class="g-fb-icon">' + (ok ? "✅" : "❌") + '</span>';
+    html += '<strong>' + (ok ? "Correct!" : "Not quite.") + '</strong>';
+    if (ex) html += '<div class="g-fb-explain">' + ex + '</div>';
+    f.innerHTML = html;
+}
+
+function hfb() {
+    var f = document.getElementById("gfb");
+    f.className = "g-fb";
+    f.innerHTML = "";
+}
+
+// ===== HELP =====
+function shlp(r) {
+    if (!r.hw) { hhlp(); return; }
+    var h = document.getElementById("ghelp");
+    h.className = "g-help show";
+    h.innerHTML = '<div id="hbtn" onclick="openH()" style="cursor:pointer; font-weight:700; color:#f57f17; font-size:0.95em; padding:6px 0;">' +
+        '💡 Need a Hint? <span style="font-size:0.8em; color:#bbb;">(tap to see)</span>' +
+        '</div>' +
+        '<div id="hcon" style="display:none; margin-top:8px; padding-top:8px; border-top:1px dashed #fbc02d;">' +
+        '<span class="g-help-word">' + r.hw + '</span> ' +
+        '<span class="g-help-vn">' + r.hv + '</span>' +
+        '<span class="g-help-ex">' + r.he + '</span>' +
+        '</div>';
+}
+
+function openH() {
+    var c = document.getElementById("hcon");
+    var b = document.getElementById("hbtn");
+    if (c) c.style.display = "block";
+    if (b) { b.innerHTML = "💡 Word Help"; b.style.cursor = "default"; b.onclick = null; }
+}
+
+function revH() {
+    var c = document.getElementById("hcon");
+    var b = document.getElementById("hbtn");
+    if (c) c.style.display = "block";
+    if (b) { b.innerHTML = "💡 Word Help"; b.style.cursor = "default"; b.onclick = null; }
+}
+
+
+function hhlp() {
+    document.getElementById("ghelp").className = "g-help";
+}
+
+// ===== NEXT =====
+function snx() {
+    document.getElementById(".g-next-btn").style.display = "inline-block";
+}
+
+function hnx() {
+    document.getElementById("gnext").style.display = "none";
+}
+
+// ===== COMPLETION =====
+function done() {
+    document.getElementById("garea").style.display = "none";
+    document.getElementById("gnext").style.display = "none";
+    hfb();
+    hhlp();
+    document.querySelector(".g-progress").style.display = "none";
+
+    var p = sc / tot;
+    var s = 0;
+    if (p === 1) s = 5;
+    else if (p >= 0.8) s = 4;
+    else if (p >= 0.6) s = 3;
+    else if (p >= 0.4) s = 2;
+    else if (p > 0) s = 1;
+
+    var st = "";
+    for (var i = 0; i < s; i++) st += "⭐";
+    for (var i = s; i < 5; i++) st += "☆";
+
+    var ms = "";
+    if (p === 1) ms = "Perfect! You know this, that, these & those! 🎉";
+    else if (p >= 0.7) ms = "Great job! Almost there! 💪";
+    else ms = "Keep practicing! You'll get it! 🌱";
+
+    var d = document.getElementById("gdone");
+    d.className = "g-done show";
+    d.innerHTML = '<div class="g-done-trophy">🏆</div>' +
+        '<h2>Well Done!</h2>' +
+        '<p class="g-done-score">You got ' + sc + ' out of ' + tot + ' correct!</p>' +
+        '<div class="g-done-stars">' + st + '</div>' +
+        '<p class="g-done-msg">' + ms + '</p>' +
+        '<div class="g-done-btns">' +
+        '<button class="g-retry" onclick="restart()">🔄 Play Again</button>' +
+        '<a href="../index.html" class="g-home">📖 Grammar Hub</a>' +
+        '</div>';
+}
+
+function restart() {
+    cur = 0;
+    sc = 0;
+    document.getElementById("gdone").className = "g-done";
+    document.getElementById("garea").style.display = "block";
+    document.querySelector(".g-progress").style.display = "block";
+    prog();
+    go();
+}
+</script>
+</body>
+</html>

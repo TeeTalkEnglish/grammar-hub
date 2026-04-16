@@ -354,12 +354,50 @@ body {
 
 .g-blank {
     display: inline-block;
-    min-width: 90px;
-    border-bottom: 3px dashed #667eea;
-    padding: 2px 4px;
-    margin: 0 4px;
+    min-width: 80px;
+    padding: 4px 8px;
+    text-align: center;
+    border-bottom: 2px dashed #999;
     color: #667eea;
-    font-weight: 700;
+    font-weight: bold;
+}
+
+.g-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    gap: 10px;
+}
+
+.g-prev-btn,
+.g-next-btn {
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+/* Previous = subtle */
+.g-prev-btn {
+    background: #f1f1f1;
+    color: #555;
+}
+
+.g-prev-btn:hover {
+    background: #e0e0e0;
+}
+
+/* Next = primary */
+.g-next-btn {
+    background: #ff9800;
+    color: white;
+}
+
+.g-next-btn:hover {
+    background: #fb8c00;
 }
 
 /* Fill Choices */
